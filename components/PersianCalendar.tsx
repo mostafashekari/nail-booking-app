@@ -5,10 +5,15 @@ import DatePicker from "react-multi-date-picker";
 import persian from "react-date-object/calendars/persian";
 import persian_fa from "react-date-object/locales/persian_fa";
 
-const PersianCalendar = ({ value, onChange }) => {
-    const [selectedDate, setSelectedDate] = useState(value);
+interface PersianCalendarProps {
+    value: Date | null;
+    onChange: (date: Date | null) => void;
+}
 
-    const handleDateChange = (date) => {
+const PersianCalendar: React.FC<PersianCalendarProps> = ({ value, onChange }) => {
+    const [selectedDate, setSelectedDate] = useState<Date | null>(value);
+
+    const handleDateChange = (date: Date | null) => {
         setSelectedDate(date);
         if (onChange) onChange(date);
     };
@@ -16,7 +21,7 @@ const PersianCalendar = ({ value, onChange }) => {
     return (
         <DatePicker
             value={selectedDate}
-            onChange={handleDateChange}
+            onChange={(date: any) => handleDateChange(date?.toDate() || null)}
             calendar={persian}
             locale={persian_fa}
             style={{
@@ -24,9 +29,9 @@ const PersianCalendar = ({ value, onChange }) => {
                 padding: "10px",
                 border: "1px solid #ccc",
                 borderRadius: "5px",
-                color: "#000", // تغییر رنگ متن به مشکی
+                color: "#000",
             }}
-            className="custom-calendar" // کلاس برای استایل‌دهی پیشرفته
+            className="custom-calendar"
         />
     );
 };
