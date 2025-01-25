@@ -2,6 +2,7 @@
 
 import { useForm } from "react-hook-form";
 import PersianCalendar from "./PersianCalendar";
+import { DayValue } from "react-multi-date-picker";
 
 type FormData = {
     name: string;
@@ -25,7 +26,7 @@ const AppointmentForm = () => {
                 alert("نوبت شما با موفقیت ثبت شد!");
                 reset();
             } else {
-                alert("خطایی در ثبت نوبت رخ داده است.");
+                alert("خطایی در ذخیره نوبت رخ داده است.");
             }
         } catch (error) {
             console.error("Error submitting appointment:", error);
@@ -33,9 +34,11 @@ const AppointmentForm = () => {
         }
     };
 
-    const handleDateChange = (date: any) => {
-        const formattedDate = date.format("YYYY-MM-DD");
-        setValue("date", formattedDate, { shouldValidate: true });
+    const handleDateChange = (date: DayValue) => {
+        if (date) {
+            const formattedDate = date.toString(); // Format date as needed
+            setValue("date", formattedDate, { shouldValidate: true });
+        }
     };
 
     return (
