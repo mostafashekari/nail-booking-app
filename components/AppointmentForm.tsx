@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import PersianCalendar from "./PersianCalendar";
 
@@ -12,6 +13,7 @@ type FormData = {
 
 const AppointmentForm = () => {
     const { register, handleSubmit, setValue, formState: { errors }, reset } = useForm<FormData>();
+    const [selectedDate, setSelectedDate] = useState<Date | null>(null);
 
     const onSubmit = async (data: FormData) => {
         try {
@@ -24,6 +26,7 @@ const AppointmentForm = () => {
             if (response.ok) {
                 alert("نوبت شما با موفقیت ثبت شد!");
                 reset();
+                setSelectedDate(null); // Reset date
             } else {
                 alert("خطایی در ذخیره نوبت رخ داده است.");
             }
@@ -34,8 +37,9 @@ const AppointmentForm = () => {
     };
 
     const handleDateChange = (date: Date | null) => {
+        setSelectedDate(date);
         if (date) {
-            const formattedDate = date.toISOString().split("T")[0]; // Format date as YYYY-MM-DD
+            const formattedDate = date.toISOString().split("T")[0]; // Format as YYYY-MM-DD
             setValue("date", formattedDate, { shouldValidate: true });
         }
     };
@@ -72,7 +76,7 @@ const AppointmentForm = () => {
 
             <div>
                 <label className="block text-sm font-medium mb-1">تاریخ</label>
-                <PersianCalendar onChange={handleDateChange} />
+                <PersianCalendar value={selectedDate} onChange={handleDateChange} />
                 <input type="hidden" {...register("date", { required: "تاریخ الزامی است" })} />
                 {errors.date && <span className="text-red-500 text-sm">{errors.date.message}</span>}
             </div>
@@ -95,4 +99,5 @@ const AppointmentForm = () => {
 };
 
 export default AppointmentForm;
+
 
