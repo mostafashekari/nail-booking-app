@@ -21,7 +21,7 @@ const PersianCalendar: React.FC<PersianCalendarProps> = ({ value, onChange }) =>
     return (
         <DatePicker
             value={selectedDate}
-            onChange={(date: any) => handleDateChange(date?.toDate() || null)}
+            onChange={(date) => handleDateChange(date?.toDate() || null)} // Ensure the date is a valid JavaScript Date
             calendar={persian}
             locale={persian_fa}
             style={{
@@ -37,3 +37,4 @@ const PersianCalendar: React.FC<PersianCalendarProps> = ({ value, onChange }) =>
 };
 
 export default PersianCalendar;
+
